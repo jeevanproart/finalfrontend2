@@ -1,3 +1,4 @@
+// News.js
 import React from "react";
 import spinner from "./spinner.gif";
 
@@ -20,11 +21,12 @@ class News extends React.Component {
       let url;
 
       if (this.state.searchTerm) {
-        url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(this.state.searchTerm)}&apiKey=ce80a4cd2c2a4f85876708f181f42dd8`;
-      } else {
-        url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(this.props.newsName)}&apiKey=ce80a4cd2c2a4f85876708f181f42dd8`;
-      }
+        url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(this.state.searchTerm)}&apiKey=dca1f06731124a10960e18e5c27512f4`;
 
+
+      } else {
+        url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(this.props.newsName)}&apiKey=dca1f06731124a10960e18e5c27512f4`;
+      }
       let res = await fetch(url);
       let data = await res.json();
       let articles = data.articles;
@@ -40,33 +42,35 @@ class News extends React.Component {
         }
       });
 
-      articles = articles
-        .filter((article) => article.title && article.description && article.urlToImage) // Filter articles without proper title, description, or image
-        .map((article) => (
-          <div className="p-8" key={article.title}>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
-              <img className="w-full" src={article.urlToImage} alt={article.title} />
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{article.title}</div>
-                <p className="text-gray-700 text-base">{article.description}</p>
-                <button className="font-bold text-xl mb-2">
-                  <a href={article.url}>Read more</a>
-                </button>
-              </div>
-              <div className="px-6 pt-4 pb-2">
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                  #{article.author}
-                </span>
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                  #{article.source.name}
-                </span>
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                  #{article.publishedAt}
-                </span>
-              </div>
+      articles = articles.map((article) => (
+        <div className="p-8" key={article.title}>
+          <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <img
+              className="w-full"
+              src={article.urlToImage}
+              alt={article.title}
+            />
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl mb-2">{article.title}</div>
+              <p className="text-gray-700 text-base">{article.description}</p>
+              <button className="font-bold text-xl mb-2">
+                <a href={article.url}>Read more</a>
+              </button>
+            </div>
+            <div className="px-6 pt-4 pb-2">
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                #{article.author}
+              </span>
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                #{article.source.name}
+              </span>
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                #{article.publishedAt}
+              </span>
             </div>
           </div>
-        ));
+        </div>
+      ));
 
       this.setState({ articles, loading: false });
     } catch (error) {
@@ -135,7 +139,10 @@ class News extends React.Component {
             placeholder="Search for news..."
             className="text-base h-10"
           />
-          <button type="submit" className="bg-blue-500 text-white p-2 ml-2 rounded h-10">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 ml-2 rounded h-10"
+          >
             Search
           </button>
         </form>
@@ -162,16 +169,18 @@ class News extends React.Component {
             <option value="asc">Ascending</option>
           </select>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 display: flex align-items: center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1">
           {this.state.loading ? (
             <img src={spinner} alt="Loading" style={{ width: "300px", margin: "auto" }} />
           ) : (
             this.state.articles
           )}
         </div>
-
-        <button className="font-bold text-xl mb-2" onClick={() => this.fetchData()}>
-          <i className="fas fa-sync"></i> <h1 style={{ color: "grey", margin: "auto" }}>Fetching DATA</h1>
+        <button
+          className="font-bold text-xl mb-2"
+          onClick={() => this.fetchData()} 
+        >
+          <i className="fas fa-sync"></i> <h1>Fetching DATA</h1>
         </button>
       </div>
     );
